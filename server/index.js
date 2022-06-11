@@ -1,14 +1,15 @@
 const express = require("express");
 const socketIO = require("socket.io");
-const http = require("http")
+const http = require("http");
 const cors = require("cors");
+const { addUser, removeUser } = require("./users");
 
 const app = express();
 const port = 4000;
 
 app.use(cors());
 
-const httpServer = http.createServer(app)
+const httpServer = http.createServer(app);
 const io = socketIO(httpServer);
 
 app.get("/", (req, res) => {
@@ -16,12 +17,21 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("A user connected ", socket.id);
+  socket.on("join", ({ name, room }, callback) => {
+    console.log("Join request", name);
+    const { error, user } = addUser({ id: socket.id, name, room });
+
+    if (error) {
+      callback(error);
+    }
+    callback()
+  });
 
   socket.on("disconnect", () => {
-    console.log('user disconnected', socket.id);
-  })
-})
+    console.log("user disconnected", socket.id);
+    removeUser(socket.id);
+  });
+});
 
 httpServer.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

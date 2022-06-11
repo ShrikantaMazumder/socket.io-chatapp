@@ -11,6 +11,11 @@ const Chat = () => {
   console.log(name, room);
   useEffect(() => {
     socket = io("http://localhost:4000");
+    socket.emit("join", { name, room }, (error) => {
+      if (error) {
+        alert(error);
+      }
+    });
   }, []);
 
   return <div className="chat">chat</div>;
