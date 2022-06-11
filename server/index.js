@@ -24,8 +24,23 @@ io.on("connection", (socket) => {
     if (error) {
       callback(error);
     }
+
+    // create a room/group on socket server
+    socket.join(room);
+     socket.emit("message", {
+       user: "System",
+       text: `Welcome ${name} to ${room}.`,
+     });
+    socket.broadcast.to(room).emit("message", {
+      user: "System", 
+      text: `${name} just joined to ${room}.`
+    })
     callback()
   });
+
+  socket.on("message",  (message) => {
+    console.log(message);
+  })
 
   socket.on("disconnect", () => {
     console.log("user disconnected", socket.id);
