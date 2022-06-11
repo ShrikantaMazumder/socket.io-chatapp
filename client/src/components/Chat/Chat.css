@@ -1,9 +1,22 @@
 .chat {
-  width: 400px;
+  width: 500px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   border: 2px solid dodgerblue;
   border-radius: 5px;
+  background-color: #fff;
+}
+
+.user-list {
+  width: 100px;
+  border-right: 2px solid dodgerblue;
+}
+
+.chat-section {
+  height: 100%;
+  flex: auto;
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
 }
 
@@ -40,4 +53,28 @@
   font-size: 20px;
   margin-top: 15px;
   padding: 5px;
+}
+
+.messages {
+  float: 0 0 100%;
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+}
+
+.messages .message {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  background-color: #f1f0f0;
+  margin: 5px 0;
+  padding: 5px;
+  border-radius: 5px;
+  align-items: flex-start;
+}
+
+.messages .message.self {
+  background-color: #0099ff;
+  color: white;
+  align-items: flex-end;
 }
